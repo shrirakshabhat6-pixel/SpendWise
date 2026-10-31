@@ -108,3 +108,9 @@ const expenses = [
 ];
 
 export default expenses;
+// Filter expenses by month
+export const filterExpensesByMonth = (expenses, month) => {
+  return expenses.filter((expense) => {
+    return expense.date.startsWith(month);
+  });
+};

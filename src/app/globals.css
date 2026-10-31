@@ -47,3 +47,55 @@ a {
     color-scheme: dark;
   }
 }
+.budget-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 25px 0;
+}
+
+.budget-card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  min-width: 180px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.budget-card h3 {
+  color: #555;
+}
+
+.budget-card h2 {
+  color: #2563eb;
+}
+
+.spending-chart {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin-top: 25px;
+}
+
+.chart-item {
+  margin: 20px 0;
+}
+
+.chart-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.chart-bar {
+  height: 12px;
+  background: #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.chart-fill {
+  height: 100%;
+  background: #2563eb;
+  border-radius: 10px;
+}
