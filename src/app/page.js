@@ -67,6 +67,11 @@
 //     </div>
 //   );
 // }
+
+"use client";
+
+import { useState } from "react";
+
 import BudgetCard from "@/components/BudgetCard";
 import SpendingChart from "@/components/SpendingChart";
 import expenses from "@/data/expenses";
@@ -78,7 +83,7 @@ import {
 } from "@/utils/Calculations";
 
 export default function Home() {
-  const totalBudget = 10000;
+  const [totalBudget, setTotalBudget] = useState(10000);
 
   const totalExpenses = calculateTotalExpenses(expenses);
 
@@ -86,12 +91,32 @@ export default function Home() {
     totalBudget,
     expenses
   );
+const categoryExpenses = calculateCategoryExpenses(expenses);
 
-  const categoryExpenses = calculateCategoryExpenses(expenses);
+const budgetUsage =
+  totalBudget > 0
+    ? (totalExpenses / totalBudget) * 100
+    : 0;
+
+const progressWidth = Math.min(budgetUsage, 100);
 
   return (
     <main>
       <h1>SpendWise Dashboard</h1>
+
+      <div className="monthly-budget">
+        <label htmlFor="budget">Set Monthly Budget (₹)</label>
+
+        <input
+          id="budget"
+          type="number"
+          min="0"
+          value={totalBudget}
+          onChange={(e) =>
+            setTotalBudget(Math.max(0, Number(e.target.value)))
+          }
+        />
+      </div>
 
       <div className="budget-container">
         <BudgetCard
@@ -108,6 +133,25 @@ export default function Home() {
           title="Remaining Budget"
           amount={remainingBudget}
         />
+      </div>
+       
+      <div className="budget-summary">
+        <h2>Budget Usage Summary</h2>
+
+        <p>Budget Used: {budgetUsage.toFixed(1)}%</p>
+
+        <div className="usage-bar">
+          <div
+            className="usage-fill"
+            style={{ width: `${progressWidth}%` }}
+          ></div>
+        </div>
+
+        <p>
+          {remainingBudget >= 0
+            ? `You have ₹${remainingBudget} remaining.`
+            : `You have exceeded your budget by ₹${Math.abs(remainingBudget)}.`}
+        </p>
       </div>
 
       <SpendingChart categoryExpenses={categoryExpenses} />
