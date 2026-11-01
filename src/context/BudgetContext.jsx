@@ -1,3 +1,4 @@
+
 "use client";
 
 import { createContext, useContext, useState, useEffect } from "react";
@@ -6,33 +7,37 @@ import { saveData, getData } from "../utils/Storage";
 const BudgetContext = createContext(null);
 
 export function BudgetProvider({ children }) {
-  const [budget, setBudget] = useState(0);
+  const [budget, setBudget] = useState(10000);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Load saved budget from localStorage
+  // Load saved budget
   useEffect(() => {
     try {
-      const savedBudget = getData("budget", 0);
-      setBudget(Number(savedBudget) || 0);
+      const savedBudget = getData("spendwise-budget", 10000);
+      const numericBudget = Number(savedBudget);
+
+      if (Number.isFinite(numericBudget) && numericBudget >= 0) {
+        setBudget(numericBudget);
+      }
     } catch (error) {
       console.error("Error loading budget:", error);
-      setBudget(0);
     }
 
     setIsLoaded(true);
   }, []);
 
-  // Save budget to localStorage whenever it changes
+  // Save budget
   useEffect(() => {
     if (isLoaded) {
-      saveData("budget", budget);
+      saveData("spendwise-budget", budget);
     }
   }, [budget, isLoaded]);
 
-  // Update budget function
+  // Update budget
   function updateBudget(newAmount) {
     const numericAmount = Number(newAmount);
-    if (!isNaN(numericAmount) && numericAmount >= 0) {
+
+    if (Number.isFinite(numericAmount) && numericAmount >= 0) {
       setBudget(numericAmount);
     }
   }

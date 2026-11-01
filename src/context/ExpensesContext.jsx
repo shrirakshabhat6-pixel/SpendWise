@@ -1,47 +1,98 @@
+
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
-import { saveData, getData } from "../utils/Storage";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+
+import initialExpenses from "@/data/expenses";
 
 const ExpensesContext = createContext();
 
 export function ExpensesProvider({ children }) {
-  const [expenses, setExpenses] = useState([]);
+  const [expenses, setExpenses] = useState(initialExpenses);
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Load expenses from LocalStorage
   useEffect(() => {
-    const savedExpenses = getData("expenses", []);
+    try {
+      const savedExpenses = localStorage.getItem("spendwise-expenses");
 
-    setExpenses(savedExpenses);
+      if (savedExpenses !== null) {
+        const parsedExpenses = JSON.parse(savedExpenses);
+
+        if (Array.isArray(parsedExpenses)) {
+          setExpenses(parsedExpenses);
+        }
+      } else {
+        // Support expenses saved by the other branch
+        const previousExpenses = localStorage.getItem("expenses");
+
+        if (previousExpenses !== null) {
+          const parsedExpenses = JSON.parse(previousExpenses);
+
+          if (Array.isArray(parsedExpenses)) {
+            setExpenses(parsedExpenses);
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Unable to load expenses:", error);
+    }
+
     setIsLoaded(true);
   }, []);
 
   // Save expenses to LocalStorage
   useEffect(() => {
     if (isLoaded) {
-      saveData("expenses", expenses);
+      localStorage.setItem(
+        "spendwise-expenses",
+        JSON.stringify(expenses)
+      );
     }
   }, [expenses, isLoaded]);
 
   // Add expense
-  function addExpense(expense) {
+  const addExpense = (expense) => {
     setExpenses((previousExpenses) => [
+      {
+        ...expense,
+        id: expense.id ?? Date.now(),
+      },
       ...previousExpenses,
-      expense,
     ]);
-  }
+  };
 
   // Delete expense
-  function deleteExpense(id) {
+  const deleteExpense = (id) => {
     setExpenses((previousExpenses) =>
       previousExpenses.filter((expense) => expense.id !== id)
     );
-  }
+  };
+
+  // Update expense
+  const updateExpense = (updatedExpense) => {
+    setExpenses((previousExpenses) =>
+      previousExpenses.map((expense) =>
+        expense.id === updatedExpense.id
+          ? updatedExpense
+          : expense
+      )
+    );
+  };
 
   return (
     <ExpensesContext.Provider
-      value={{ expenses, addExpense, deleteExpense }}
+      value={{
+        expenses,
+        addExpense,
+        deleteExpense,
+        updateExpense,
+      }}
     >
       {children}
     </ExpensesContext.Provider>
