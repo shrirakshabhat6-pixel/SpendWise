@@ -16,12 +16,28 @@ export function ExpensesProvider({ children }) {
   const [expenses, setExpenses] = useState(initialExpenses);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  // Load expenses from LocalStorage
   useEffect(() => {
     try {
       const savedExpenses = localStorage.getItem("spendwise-expenses");
 
       if (savedExpenses !== null) {
-        setExpenses(JSON.parse(savedExpenses));
+        const parsedExpenses = JSON.parse(savedExpenses);
+
+        if (Array.isArray(parsedExpenses)) {
+          setExpenses(parsedExpenses);
+        }
+      } else {
+        // Support expenses saved by the other branch
+        const previousExpenses = localStorage.getItem("expenses");
+
+        if (previousExpenses !== null) {
+          const parsedExpenses = JSON.parse(previousExpenses);
+
+          if (Array.isArray(parsedExpenses)) {
+            setExpenses(parsedExpenses);
+          }
+        }
       }
     } catch (error) {
       console.error("Unable to load expenses:", error);
@@ -30,6 +46,7 @@ export function ExpensesProvider({ children }) {
     setIsLoaded(true);
   }, []);
 
+  // Save expenses to LocalStorage
   useEffect(() => {
     if (isLoaded) {
       localStorage.setItem(
@@ -39,22 +56,28 @@ export function ExpensesProvider({ children }) {
     }
   }, [expenses, isLoaded]);
 
+  // Add expense
   const addExpense = (expense) => {
-    setExpenses((previous) => [
-      { ...expense, id: Date.now() },
-      ...previous,
+    setExpenses((previousExpenses) => [
+      {
+        ...expense,
+        id: expense.id ?? Date.now(),
+      },
+      ...previousExpenses,
     ]);
   };
 
+  // Delete expense
   const deleteExpense = (id) => {
-    setExpenses((previous) =>
-      previous.filter((expense) => expense.id !== id)
+    setExpenses((previousExpenses) =>
+      previousExpenses.filter((expense) => expense.id !== id)
     );
   };
 
+  // Update expense
   const updateExpense = (updatedExpense) => {
-    setExpenses((previous) =>
-      previous.map((expense) =>
+    setExpenses((previousExpenses) =>
+      previousExpenses.map((expense) =>
         expense.id === updatedExpense.id
           ? updatedExpense
           : expense

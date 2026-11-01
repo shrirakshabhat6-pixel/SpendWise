@@ -20,6 +20,7 @@ export default function ExpensesList() {
 
   const handleEdit = (expense) => {
     setEditingId(expense.id);
+
     setFormData({
       title: expense.title,
       amount: expense.amount,
@@ -29,20 +30,22 @@ export default function ExpensesList() {
   };
 
   const handleSave = (id) => {
+    const numericAmount = Number(formData.amount);
+
     if (
       !formData.title.trim() ||
-      !formData.amount ||
-      Number(formData.amount) <= 0 ||
+      !Number.isFinite(numericAmount) ||
+      numericAmount <= 0 ||
       !formData.date
     ) {
-      alert("Please enter valid expense details");
+      alert("Please enter valid expense details.");
       return;
     }
 
     updateExpense({
       id,
       title: formData.title.trim(),
-      amount: Number(formData.amount),
+      amount: numericAmount,
       category: formData.category,
       date: formData.date,
     });
@@ -104,7 +107,8 @@ export default function ExpensesList() {
 
                 <input
                   type="number"
-                  min="1"
+                  min="0.01"
+                  step="0.01"
                   value={formData.amount}
                   onChange={(e) =>
                     setFormData({ ...formData, amount: e.target.value })
@@ -134,8 +138,13 @@ export default function ExpensesList() {
                   }
                 />
 
-                <button onClick={() => handleSave(expense.id)}>Save</button>
-                <button onClick={() => setEditingId(null)}>Cancel</button>
+                <button onClick={() => handleSave(expense.id)}>
+                  Save
+                </button>
+
+                <button onClick={() => setEditingId(null)}>
+                  Cancel
+                </button>
               </div>
             ) : (
               <>
@@ -145,8 +154,14 @@ export default function ExpensesList() {
                 </div>
 
                 <div className="expense-actions">
-                  <strong>₹{expense.amount}</strong>
-                  <button onClick={() => handleEdit(expense)}>Edit</button>
+                  <strong>
+                    ₹{Number(expense.amount).toLocaleString("en-IN")}
+                  </strong>
+
+                  <button onClick={() => handleEdit(expense)}>
+                    Edit
+                  </button>
+
                   <button onClick={() => deleteExpense(expense.id)}>
                     Delete
                   </button>

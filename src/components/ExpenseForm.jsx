@@ -4,25 +4,42 @@
 import { useState } from "react";
 import { useExpenses } from "@/context/ExpensesContext";
 
+const getTodayDate = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+};
+
 export default function ExpenseForm() {
   const { addExpense } = useExpenses();
 
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("Food");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(getTodayDate);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!title || !amount || Number(amount) <= 0 || !date) {
-      alert("Please enter valid expense details");
+    const trimmedTitle = title.trim();
+    const numericAmount = Number(amount);
+
+    if (
+      !trimmedTitle ||
+      !Number.isFinite(numericAmount) ||
+      numericAmount <= 0 ||
+      !date
+    ) {
+      alert("Please enter valid expense details.");
       return;
     }
 
     addExpense({
-      title,
-      amount: Number(amount),
+      title: trimmedTitle,
+      amount: numericAmount,
       category,
       date,
     });
@@ -30,7 +47,7 @@ export default function ExpenseForm() {
     setTitle("");
     setAmount("");
     setCategory("Food");
-    setDate("");
+    setDate(getTodayDate());
   };
 
   return (
@@ -49,7 +66,8 @@ export default function ExpenseForm() {
         <input
           type="number"
           placeholder="Amount (₹)"
-          min="1"
+          min="0.01"
+          step="0.01"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           required

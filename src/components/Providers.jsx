@@ -1,11 +1,14 @@
 "use client";
 
 import { ExpensesProvider } from "../context/ExpensesContext";
+import { BudgetProvider } from "../context/BudgetContext"; // 
 
-export default function Providers({ children }) {
+export function Providers({ children }) {
   return (
     <ExpensesProvider>
-      {children}
+      <BudgetProvider>
+        {children}
+      </BudgetProvider>
     </ExpensesProvider>
   );
 }
