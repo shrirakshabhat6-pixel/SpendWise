@@ -1,7 +1,6 @@
-
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Providers } from "@/components/Providers";
+import { Providers } from "../components/providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "SpendWise - Student Expense Tracker",
-  description: "Track your expenses and manage your monthly budget.",
+  title: "SpendWise - Smart Expense Tracker",
+  description: "Easily track, manage, and budget your daily expenses.",
 };
 
 export default function RootLayout({ children }) {
