@@ -2,11 +2,16 @@
 
 import { ExpensesProvider } from "../context/ExpensesContext";
 import { BudgetProvider } from "../context/BudgetContext";
+import { SavingsProvider } from "../context/SavingsContext";
 
 export function Providers({ children }) {
   return (
     <ExpensesProvider>
-      <BudgetProvider>{children}</BudgetProvider>
+      <BudgetProvider>
+        <SavingsProvider>
+          {children}
+        </SavingsProvider>
+      </BudgetProvider>
     </ExpensesProvider>
   );
 }
