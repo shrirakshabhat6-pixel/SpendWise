@@ -1,3 +1,4 @@
+
 "use client";
 
 import { createContext, useContext, useState, useEffect } from "react";
@@ -6,23 +7,40 @@ const SavingsContext = createContext();
 
 export function SavingsProvider({ children }) {
   const [savingsGoals, setSavingsGoals] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  // Load savings goals from localStorage on mount
+  // Load saved goals when the app starts
   useEffect(() => {
-    const saved = localStorage.getItem("spendwise_savings_goals");
-    if (saved) {
-      try {
-        setSavingsGoals(JSON.parse(saved));
-      } catch (err) {
-        console.error("Failed to parse savings goals from localStorage", err);
+    try {
+      const saved = localStorage.getItem("spendwise_savings_goals");
+
+      if (saved) {
+        const parsed = JSON.parse(saved);
+
+        if (Array.isArray(parsed)) {
+          setSavingsGoals(parsed);
+        }
       }
+    } catch (err) {
+      console.error("Failed to load savings goals:", err);
+    } finally {
+      setIsLoaded(true);
     }
   }, []);
 
-  // Save savings goals to localStorage whenever they change
+  // Save goals only AFTER they have finished loading
   useEffect(() => {
-    localStorage.setItem("spendwise_savings_goals", JSON.stringify(savingsGoals));
-  }, [savingsGoals]);
+    if (!isLoaded) return;
+
+    try {
+      localStorage.setItem(
+        "spendwise_savings_goals",
+        JSON.stringify(savingsGoals)
+      );
+    } catch (err) {
+      console.error("Failed to save savings goals:", err);
+    }
+  }, [savingsGoals, isLoaded]);
 
   const addSavingsGoal = (goal) => {
     const newGoal = {
@@ -30,25 +48,28 @@ export function SavingsProvider({ children }) {
       id: Date.now().toString(),
       createdAt: new Date().toISOString(),
     };
+
     setSavingsGoals((prev) => [newGoal, ...prev]);
   };
 
   const addContribution = (goalId, amount) => {
     setSavingsGoals((prev) =>
-      prev.map((goal) => {
-        if (goal.id === goalId) {
-          return {
-            ...goal,
-            currentAmount: Number(goal.currentAmount || 0) + Number(amount),
-          };
-        }
-        return goal;
-      })
+      prev.map((goal) =>
+        goal.id === goalId
+          ? {
+              ...goal,
+              currentAmount:
+                Number(goal.currentAmount || 0) + Number(amount),
+            }
+          : goal
+      )
     );
   };
 
   const deleteSavingsGoal = (goalId) => {
-    setSavingsGoals((prev) => prev.filter((goal) => goal.id !== goalId));
+    setSavingsGoals((prev) =>
+      prev.filter((goal) => goal.id !== goalId)
+    );
   };
 
   return (
