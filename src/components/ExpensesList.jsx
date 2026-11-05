@@ -1,51 +1,176 @@
+
 "use client";
 
-import { useExpenses } from "../context/ExpensesContext";
+import { useState } from "react";
+import { useExpenses } from "@/context/ExpensesContext";
 
-function ExpensesList() {
-  const { expenses, deleteExpense } = useExpenses();
+export default function ExpensesList() {
+  const { expenses, deleteExpense, updateExpense } = useExpenses();
 
-  // Sort expenses by date descending (newest first)
-  const sortedExpenses = [...expenses].sort(
-    (a, b) => new Date(b.date) - new Date(a.date)
-  );
+  const [editingId, setEditingId] = useState(null);
+  const [search, setSearch] = useState("");
+  const [filter, setFilter] = useState("All");
+
+  const [formData, setFormData] = useState({
+    title: "",
+    amount: "",
+    category: "Food",
+    date: "",
+  });
+
+  const handleEdit = (expense) => {
+    setEditingId(expense.id);
+
+    setFormData({
+      title: expense.title,
+      amount: expense.amount,
+      category: expense.category,
+      date: expense.date,
+    });
+  };
+
+  const handleSave = (id) => {
+    const numericAmount = Number(formData.amount);
+
+    if (
+      !formData.title.trim() ||
+      !Number.isFinite(numericAmount) ||
+      numericAmount <= 0 ||
+      !formData.date
+    ) {
+      alert("Please enter valid expense details.");
+      return;
+    }
+
+    updateExpense({
+      id,
+      title: formData.title.trim(),
+      amount: numericAmount,
+      category: formData.category,
+      date: formData.date,
+    });
+
+    setEditingId(null);
+  };
+
+  const filteredExpenses = expenses.filter((expense) => {
+    const matchesSearch = expense.title
+      .toLowerCase()
+      .includes(search.toLowerCase());
+
+    const matchesCategory =
+      filter === "All" || expense.category === filter;
+
+    return matchesSearch && matchesCategory;
+  });
 
   return (
-    <div className="expenses-list-container">
-      <h2>Recent Expenses</h2>
+    <div className="expenses-list">
+      <h2>All Expenses</h2>
 
-      {sortedExpenses.length === 0 ? (
-        <p className="empty-message">No expenses logged yet. Add one above!</p>
+      <div className="expense-filters">
+        <input
+          type="text"
+          placeholder="Search expenses..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+
+        <select
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        >
+          <option>All</option>
+          <option>Food</option>
+          <option>Transport</option>
+          <option>Shopping</option>
+          <option>Bills</option>
+          <option>Entertainment</option>
+          <option>Education</option>
+          <option>Healthcare</option>
+        </select>
+      </div>
+
+      {filteredExpenses.length === 0 ? (
+        <p>No matching expenses found.</p>
       ) : (
-        <div className="expenses-grid">
-          {sortedExpenses.map((expense) => (
-            <div className="expense-card" key={expense.id}>
-              <div className="expense-details">
-                <h3 className="expense-title">{expense.title}</h3>
-                <span className="expense-category">{expense.category}</span>
-                <span className="expense-date">{expense.date}</span>
-              </div>
+        filteredExpenses.map((expense) => (
+          <div className="expense-item" key={expense.id}>
+            {editingId === expense.id ? (
+              <div className="edit-expense">
+                <input
+                  value={formData.title}
+                  onChange={(e) =>
+                    setFormData({ ...formData, title: e.target.value })
+                  }
+                />
 
-              <div className="expense-action">
-                <span className="expense-amount">
-                  ₹{Number(expense.amount).toLocaleString("en-IN")}
-                </span>
+                <input
+                  type="number"
+                  min="0.01"
+                  step="0.01"
+                  value={formData.amount}
+                  onChange={(e) =>
+                    setFormData({ ...formData, amount: e.target.value })
+                  }
+                />
 
-                <button
-                  type="button"
-                  className="btn-delete"
-                  onClick={() => deleteExpense(expense.id)}
-                  aria-label={`Delete ${expense.title}`}
+                <select
+                  value={formData.category}
+                  onChange={(e) =>
+                    setFormData({ ...formData, category: e.target.value })
+                  }
                 >
-                  Delete
+                  <option>Food</option>
+                  <option>Transport</option>
+                  <option>Shopping</option>
+                  <option>Bills</option>
+                  <option>Entertainment</option>
+                  <option>Education</option>
+                  <option>Healthcare</option>
+                </select>
+
+                <input
+                  type="date"
+                  value={formData.date}
+                  onChange={(e) =>
+                    setFormData({ ...formData, date: e.target.value })
+                  }
+                />
+
+                <button onClick={() => handleSave(expense.id)}>
+                  Save
+                </button>
+
+                <button onClick={() => setEditingId(null)}>
+                  Cancel
                 </button>
               </div>
-            </div>
-          ))}
-        </div>
+            ) : (
+              <>
+                <div>
+                  <h3>{expense.title}</h3>
+                  <p>{expense.category} | {expense.date}</p>
+                </div>
+
+                <div className="expense-actions">
+                  <strong>
+                    ₹{Number(expense.amount).toLocaleString("en-IN")}
+                  </strong>
+
+                  <button onClick={() => handleEdit(expense)}>
+                    Edit
+                  </button>
+
+                  <button onClick={() => deleteExpense(expense.id)}>
+                    Delete
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        ))
       )}
     </div>
   );
 }
-
-export default ExpensesList;
