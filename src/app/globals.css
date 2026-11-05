@@ -28,7 +28,10 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Navbar */
+/* =========================
+   NAVBAR
+========================= */
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -60,7 +63,10 @@ body {
   color: #D9C9ED;
 }
 
-/* Main Content */
+/* =========================
+   MAIN CONTENT
+========================= */
+
 main {
   max-width: 1200px;
   margin: 35px auto;
@@ -73,7 +79,10 @@ main h1 {
   margin-bottom: 25px;
 }
 
-/* Monthly Budget */
+/* =========================
+   MONTHLY BUDGET
+========================= */
+
 .monthly-budget {
   background: #FFFFFF;
   padding: 22px;
@@ -103,7 +112,10 @@ main h1 {
   border-color: var(--primary);
 }
 
-/* Budget Summary Cards */
+/* =========================
+   BUDGET SUMMARY CARDS
+========================= */
+
 .budget-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -137,7 +149,10 @@ main h1 {
   font-weight: 700;
 }
 
-/* Budget Usage Summary */
+/* =========================
+   BUDGET USAGE SUMMARY
+========================= */
+
 .budget-summary {
   background: #EAE1F3;
   border: 1px solid #CDBDE0;
@@ -172,7 +187,10 @@ main h1 {
   transition: width 0.3s ease;
 }
 
-/* Spending Chart */
+/* =========================
+   SPENDING CHART
+========================= */
+
 .spending-chart {
   background: #EAE1F3;
   border: 1px solid #CDBDE0;
@@ -187,7 +205,10 @@ main h1 {
   margin-bottom: 20px;
 }
 
-/* Expense Form */
+/* =========================
+   EXPENSE FORM
+========================= */
+
 .expense-form {
   background: #EAE1F3;
   border: 1px solid #CDBDE0;
@@ -224,7 +245,10 @@ main h1 {
   border-color: #70549C;
 }
 
-/* Buttons */
+/* =========================
+   BUTTONS
+========================= */
+
 button {
   background: #70549C;
   color: white;
@@ -241,7 +265,10 @@ button:hover {
   background: #513875;
 }
 
-/* Expenses List */
+/* =========================
+   EXPENSES LIST
+========================= */
+
 .expenses-list {
   background: #EAE1F3;
   border: 1px solid #CDBDE0;
@@ -292,52 +319,9 @@ button:hover {
   background: #513875;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .budget-container {
-    grid-template-columns: 1fr;
-  }
-
-  .expense-form form {
-    grid-template-columns: 1fr;
-  }
-
-  .navbar {
-    padding: 16px 5%;
-  }
-
-  .nav-links {
-    gap: 15px;
-  }
-
-  main {
-    padding: 0 15px;
-  }
-
-  main h1 {
-    font-size: 25px;
-  }
-}
-
-@media (max-width: 480px) {
-  .expense-item {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .expense-item strong {
-    margin-right: 10px;
-  }
-
-  .navbar h2 {
-    font-size: 20px;
-  }
-
-  .nav-links {
-    gap: 10px;
-    font-size: 14px;
-  }
-}
+/* =========================
+   EDIT EXPENSE
+========================= */
 
 .edit-expense {
   display: grid;
@@ -362,11 +346,9 @@ button:hover {
   flex-wrap: wrap;
 }
 
-@media (max-width: 600px) {
-  .edit-expense {
-    grid-template-columns: 1fr;
-  }
-}
+/* =========================
+   EXPENSE FILTERS
+========================= */
 
 .expense-filters {
   display: flex;
@@ -391,8 +373,604 @@ button:hover {
   min-width: 160px;
 }
 
+/* ==================================================
+   SAVINGS PAGE
+   SpendWise Purple & Lavender Theme
+================================================== */
+
+/* Main Savings Page */
+
+.savings-page {
+  width: 100%;
+  max-width: 1200px;
+  margin: 35px auto;
+  padding: 0 25px 50px;
+  color: var(--foreground);
+}
+
+.savings-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.savings-page-header h1 {
+  color: #513875;
+  font-size: 30px;
+  margin: 8px 0;
+}
+
+.savings-page-header p {
+  color: #756987;
+}
+
+.savings-eyebrow {
+  color: #70549C;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  margin-bottom: 6px;
+}
+
+.savings-muted {
+  color: #756987;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Monthly Savings Summary */
+
+.savings-summary {
+  background: linear-gradient(135deg, #EAE1F3, #D9C9ED);
+  border: 1px solid #CDBDE0;
+  border-radius: 18px;
+  padding: 27px;
+  margin-bottom: 32px;
+  box-shadow: 0 4px 14px rgba(81, 56, 117, 0.10);
+}
+
+.savings-summary-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.savings-summary-top h2 {
+  font-size: 34px;
+  color: #513875;
+  margin: 10px 0 5px;
+}
+
+.savings-summary-icon {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  background: #F5F2F8;
+  border: 1px solid #CDBDE0;
+  border-radius: 16px;
+  font-size: 28px;
+}
+
+.savings-target-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-top: 25px;
+  margin-bottom: 12px;
+}
+
+.savings-target-row label {
+  color: #513875;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.savings-target-input {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: #FFFFFF;
+  border: 1px solid #CDBDE0;
+  border-radius: 9px;
+  padding: 9px 12px;
+  color: #513875;
+  font-weight: 700;
+}
+
+.savings-target-input input {
+  width: 110px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #513875;
+  font-size: 14px;
+}
+
+.savings-progress-track {
+  width: 100%;
+  height: 12px;
+  background: #CDBDE0;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 15px 0;
+}
+
+.savings-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #8B6DB4, #513875);
+  border-radius: 20px;
+  transition: width 0.4s ease;
+}
+
+.savings-progress-fill.completed {
+  background: linear-gradient(90deg, #70549C, #513875);
+}
+
+.savings-summary-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  color: #513875;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.savings-success {
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #F5F2F8;
+  color: #513875;
+  font-weight: 700;
+  border: 1px solid #CDBDE0;
+}
+
+/* Savings Goals Heading */
+
+.savings-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin: 30px 0 20px;
+}
+
+.savings-section-heading h2 {
+  color: #513875;
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.savings-goal-count {
+  background: #D9C9ED;
+  color: #513875;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Savings Goals Grid */
+
+.savings-goals-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+/* Individual Savings Goal Card */
+
+.savings-goal-card {
+  background: #EAE1F3;
+  border: 1px solid #CDBDE0;
+  border-radius: 18px;
+  padding: 23px;
+  box-shadow: 0 4px 12px rgba(81, 56, 117, 0.08);
+  transition: 0.25s ease;
+}
+
+.savings-goal-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(81, 56, 117, 0.14);
+}
+
+.savings-goal-heading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.savings-goal-icon {
+  width: 50px;
+  height: 50px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  background: #D9C9ED;
+  border-radius: 13px;
+  font-size: 25px;
+}
+
+.savings-goal-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.savings-goal-title h3 {
+  color: #513875;
+  font-size: 17px;
+  margin-bottom: 5px;
+  overflow-wrap: anywhere;
+}
+
+.savings-goal-title p {
+  color: #756987;
+  font-size: 13px;
+}
+
+.savings-delete-button {
+  background: #D9C9ED;
+  color: #513875;
+  padding: 8px 11px;
+  font-size: 16px;
+}
+
+.savings-delete-button:hover {
+  background: #CDBDE0;
+}
+
+/* Goal Progress */
+
+.savings-goal-amounts {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  gap: 10px;
+}
+
+.savings-goal-amounts p {
+  color: #756987;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.savings-goal-amounts strong {
+  color: #513875;
+  font-size: 18px;
+}
+
+.savings-goal-percentage strong {
+  color: #70549C;
+  font-size: 23px;
+}
+
+.savings-goal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  color: #756987;
+  font-size: 12px;
+}
+
+.savings-goal-date {
+  color: #756987;
+  font-size: 12px;
+  margin-top: 12px;
+}
+
+/* Savings Buttons */
+
+.savings-add-button {
+  width: auto;
+  background: #70549C;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 9px;
+  padding: 12px 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.savings-add-button:hover {
+  background: #513875;
+  transform: translateY(-1px);
+}
+
+.savings-goal-card > .savings-add-button {
+  width: 100%;
+  margin-top: 19px;
+}
+
+.savings-cancel-button {
+  background: #D9C9ED;
+  color: #513875;
+  border: none;
+  border-radius: 9px;
+  padding: 12px 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.savings-cancel-button:hover {
+  background: #CDBDE0;
+}
+
+/* Completed Goal */
+
+.savings-completed {
+  margin-top: 18px;
+  padding: 13px;
+  border-radius: 10px;
+  text-align: center;
+  background: #D9C9ED;
+  border: 1px solid #CDBDE0;
+  color: #513875;
+  font-weight: 700;
+}
+
+/* Empty Savings State */
+
+.savings-empty {
+  text-align: center;
+  padding: 50px 20px;
+  border: 1px dashed #BCA9D5;
+  border-radius: 18px;
+  background: #EAE1F3;
+}
+
+.savings-empty-icon {
+  width: 60px;
+  height: 60px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 16px;
+  background: #D9C9ED;
+  border-radius: 16px;
+  font-size: 30px;
+}
+
+.savings-empty h3 {
+  color: #513875;
+  margin-bottom: 8px;
+}
+
+.savings-empty p {
+  color: #756987;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+/* Create Savings Goal Form */
+
+.savings-form {
+  background: #EAE1F3;
+  border: 1px solid #CDBDE0;
+  border-radius: 18px;
+  padding: 25px;
+  margin-bottom: 28px;
+  max-width: 650px;
+  display: grid;
+  gap: 13px;
+  box-shadow: 0 4px 12px rgba(81, 56, 117, 0.08);
+}
+
+.savings-form h2 {
+  color: #513875;
+  margin-bottom: 3px;
+}
+
+.savings-form label,
+.savings-modal label {
+  color: #513875;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.savings-form input,
+.savings-form select,
+.savings-modal input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #C4B2D9;
+  border-radius: 9px;
+  background: #FFFFFF;
+  color: #302541;
+  font-size: 14px;
+  outline: none;
+}
+
+.savings-form input:focus,
+.savings-form select:focus,
+.savings-modal input:focus {
+  border-color: #70549C;
+  box-shadow: 0 0 0 3px rgba(112, 84, 156, 0.12);
+}
+
+.savings-form-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+/* Add Savings Modal */
+
+.savings-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(48, 37, 65, 0.65);
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+
+.savings-modal {
+  width: 100%;
+  max-width: 420px;
+  background: #F5F2F8;
+  color: #302541;
+  border: 1px solid #CDBDE0;
+  border-radius: 18px;
+  padding: 28px;
+  position: relative;
+  display: grid;
+  gap: 14px;
+  box-shadow: 0 15px 45px rgba(48, 37, 65, 0.25);
+}
+
+.savings-modal-close {
+  position: absolute;
+  right: 14px;
+  top: 10px;
+  background: transparent;
+  color: #513875;
+  border: none;
+  font-size: 27px;
+  padding: 5px 10px;
+}
+
+.savings-modal-close:hover {
+  background: #D9C9ED;
+}
+
+.savings-modal-icon {
+  width: 55px;
+  height: 55px;
+  display: grid;
+  place-items: center;
+  background: #E6DCF1;
+  border: 1px solid #CDBDE0;
+  border-radius: 15px;
+  font-size: 27px;
+}
+
+.savings-modal h2 {
+  color: #513875;
+  font-size: 22px;
+}
+
+.savings-modal .savings-add-button,
+.savings-modal .savings-cancel-button {
+  width: 100%;
+}
+
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+
+@media (max-width: 768px) {
+  .budget-container {
+    grid-template-columns: 1fr;
+  }
+
+  .expense-form form {
+    grid-template-columns: 1fr;
+  }
+
+  .navbar {
+    padding: 16px 5%;
+  }
+
+  .nav-links {
+    gap: 15px;
+  }
+
+  main {
+    padding: 0 15px;
+  }
+
+  main h1 {
+    font-size: 25px;
+  }
+
+  .savings-page {
+    padding: 0 15px 40px;
+  }
+
+  .savings-goals-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .savings-summary {
+    padding: 21px;
+  }
+
+  .savings-summary-top h2 {
+    font-size: 29px;
+  }
+}
+
 @media (max-width: 600px) {
+  .edit-expense {
+    grid-template-columns: 1fr;
+  }
+
   .expense-filters {
     flex-direction: column;
+  }
+
+  .savings-page-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .savings-section-heading {
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .expense-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .expense-item strong {
+    margin-right: 10px;
+  }
+
+  .navbar h2 {
+    font-size: 20px;
+  }
+
+  .nav-links {
+    gap: 10px;
+    font-size: 14px;
+  }
+
+  .savings-page-header h1 {
+    font-size: 26px;
+  }
+
+  .savings-summary {
+    padding: 17px;
+  }
+
+  .savings-summary-top h2 {
+    font-size: 25px;
+  }
+
+  .savings-goal-card {
+    padding: 17px;
+  }
+
+  .savings-form {
+    padding: 18px;
+  }
+
+  .savings-modal {
+    padding: 23px;
   }
 }
